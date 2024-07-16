@@ -1,12 +1,4 @@
 # User files:
 .vscode/
 
-# Temporary objects:
-*.obj
-*.exe
-*.pdb
-*.ilk
-CMakeCache.txt
-cmake_install.cmake
-CMakeFiles/
-main
+build/

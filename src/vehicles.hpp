@@ -1,10 +1,16 @@
 #pragma once
 
-#if !defined(__GNUC__)
-#include <format>
-#endif
 #include <string>
 #include <string_view>
+
+#if defined(__GNUC__)
+#include <fmt/format.h>
+#include <fmt/xchar.h>
+using fmt::format;
+#else
+#include <format>
+using std::format;
+#endif
 
 #include "vehicle_features.hpp"
 
@@ -20,17 +26,6 @@
         {                                                                      \
             return member.GetValue();                                          \
         }
-
-#if defined(__GNUC__)
-namespace std
-{
-    template<class... Ts>
-    std::wstring format(Ts...)
-    {
-        return L"FIXME";
-    }
-}
-#endif
 
 namespace App
 {
@@ -54,7 +49,7 @@ namespace App
         /// Получает представление всех характеристик.
         virtual std::wstring GetRepresentation() const
         {
-            return std::format(
+            return format(
                 (
                     L"{}: {}\n"
                     L"{}: {}\n"
@@ -126,7 +121,7 @@ namespace App
 
         std::wstring GetRepresentation() const override
         {
-            return std::format(
+            return format(
                 (
                     L"{}"
                     L"{}: {}\n"
