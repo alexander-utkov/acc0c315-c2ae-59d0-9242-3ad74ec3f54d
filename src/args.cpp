@@ -4,6 +4,10 @@
 #include <cstdlib>
 #include <cstring>
 
+#include "vehicle_creator.hpp"
+
+using namespace App;
+
 #pragma region App::Args
 
 bool IsHelpOption(const char* option)
@@ -18,7 +22,7 @@ bool IsHelpOption(const char* option)
     );
 }
 
-App::Args::Args(int argc, char** argv) :
+Args::Args(int argc, char** argv) :
     m_argc(argc),
     m_argv(argv)
 {
@@ -31,19 +35,19 @@ App::Args::Args(int argc, char** argv) :
 #pragma endregion
 #pragma region App::Args::Identifiers
 
-App::Args::Identifiers::Identifiers(const Args& owner) :
+Args::Identifiers::Identifiers(const Args& owner) :
     m_owner(owner)
 {}
 
-App::Args::Identifiers::Iterator
-App::Args::Identifiers::begin()
+Args::Identifiers::Iterator
+Args::Identifiers::begin()
 const
 {
     return Iterator((const char**)m_owner.m_argv + 1);
 }
 
-App::Args::Identifiers::Iterator
-App::Args::Identifiers::end()
+Args::Identifiers::Iterator
+Args::Identifiers::end()
 const
 {
     return Iterator((const char**)m_owner.m_argv + m_owner.m_argc);
@@ -52,19 +56,19 @@ const
 #pragma endregion
 #pragma region App::Args::Identifiers::Iterator
 
-App::Args::Identifiers::Iterator::Iterator(pointer ptr) :
+Args::Identifiers::Iterator::Iterator(pointer ptr) :
     m_ptr(ptr)
 {}
 
-App::Args::Identifiers::Iterator&
-App::Args::Identifiers::Iterator::operator++()
+Args::Identifiers::Iterator&
+Args::Identifiers::Iterator::operator++()
 {
     m_ptr++;
     return *this;
 }
 
-App::Args::Identifiers::Iterator
-App::Args::Identifiers::Iterator::operator++(int)
+Args::Identifiers::Iterator
+Args::Identifiers::Iterator::operator++(int)
 {
     Iterator result = *this;
     ++(*this);
@@ -72,26 +76,35 @@ App::Args::Identifiers::Iterator::operator++(int)
 }
 
 bool
-App::Args::Identifiers::Iterator::operator==(Iterator other)
+Args::Identifiers::Iterator::operator==(Iterator other)
 const
 {
     return m_ptr == other.m_ptr;
 }
 
 bool
-App::Args::Identifiers::Iterator::operator!=(Iterator other)
+Args::Identifiers::Iterator::operator!=(Iterator other)
 const
 {
     return m_ptr != other.m_ptr;
 }
 
-App::Args::Identifiers::Iterator::value_type
-App::Args::Identifiers::Iterator::operator*()
+Args::Identifiers::Iterator::value_type
+Args::Identifiers::Iterator::operator*()
 const
 {
     if (std::isdigit(**m_ptr) == 0)
     {
-        throw BadIdentifier();
+        // Допускаем унарный знак: '[+-][1-9]'.
+        if (**m_ptr == '+' || **m_ptr == '-')
+        {
+            char next = *(*m_ptr + 1);
+            if (next == '0' || std::isdigit(next) == 0)
+            {
+                throw BadIdentifier();
+            }
+        }
+        else throw BadIdentifier();
     }
     using underlying_type = std::underlying_type_t<value_type>;
     underlying_type raw;
@@ -106,19 +119,19 @@ const
 #pragma endregion
 #pragma region App::Args::Vehicles
 
-App::Args::Vehicles::Vehicles(const Args& owner) :
+Args::Vehicles::Vehicles(const Args& owner) :
     m_owner(owner)
 {}
 
-App::Args::Vehicles::Iterator
-App::Args::Vehicles::begin()
+Args::Vehicles::Iterator
+Args::Vehicles::begin()
 const
 {
     return Iterator(m_owner.GetIdentifiers().begin());
 }
 
-App::Args::Vehicles::Iterator
-App::Args::Vehicles::end()
+Args::Vehicles::Iterator
+Args::Vehicles::end()
 const
 {
     return Iterator(m_owner.GetIdentifiers().end());
@@ -127,19 +140,19 @@ const
 #pragma endregion
 #pragma region App::Args::Vehicles::Iterator
 
-App::Args::Vehicles::Iterator::Iterator(underlying_iterator it) :
+Args::Vehicles::Iterator::Iterator(underlying_iterator it) :
     m_it(it)
 {}
 
-App::Args::Vehicles::Iterator&
-App::Args::Vehicles::Iterator::operator++()
+Args::Vehicles::Iterator&
+Args::Vehicles::Iterator::operator++()
 {
     m_it++;
     return *this;
 }
 
-App::Args::Vehicles::Iterator
-App::Args::Vehicles::Iterator::operator++(int)
+Args::Vehicles::Iterator
+Args::Vehicles::Iterator::operator++(int)
 {
     Iterator result = *this;
     ++(*this);
@@ -147,26 +160,24 @@ App::Args::Vehicles::Iterator::operator++(int)
 }
 
 bool
-App::Args::Vehicles::Iterator::operator==(Iterator other)
+Args::Vehicles::Iterator::operator==(Iterator other)
 const
 {
     return m_it == other.m_it;
 }
 
 bool
-App::Args::Vehicles::Iterator::operator!=(Iterator other)
+Args::Vehicles::Iterator::operator!=(Iterator other)
 const
 {
     return m_it != other.m_it;
 }
 
-App::Args::Vehicles::Iterator::value_type
-App::Args::Vehicles::Iterator::operator*()
+Args::Vehicles::Iterator::value_type
+Args::Vehicles::Iterator::operator*()
 const
 {
-    // #error TODO
-    throw "todo";
-    return nullptr;
+    return App::VehicleCreator{}.Create(*m_it);
 }
 
 #pragma endregion

@@ -1,13 +1,29 @@
 #include "vehicle_id.hpp"
+#include "vehicle_creator.hpp"
 
-std::list<std::pair<App::VehicleId, const wchar_t*>>
+using namespace App;
+
+std::list<std::pair<VehicleId, std::wstring_view>>
 App::ListVehicles()
 {
-    return
+    static std::list<std::pair<VehicleId, std::wstring_view>> result =
     {
-        { VehicleId::A, L"test A" },
-        { VehicleId::B, L"test B" },
-        { VehicleId::C, L"test C" },
-        { VehicleId::D, L"test D" },
+        {
+            VehicleId::Motorcycle,
+            VehicleCreator::GetName(VehicleId::Motorcycle),
+        },
+        {
+            VehicleId::Scooter,
+            VehicleCreator::GetName(VehicleId::Scooter),
+        },
+        {
+            VehicleId::Car,
+            VehicleCreator::GetName(VehicleId::Car),
+        },
+        {
+            VehicleId::Bus,
+            VehicleCreator::GetName(VehicleId::Bus),
+        },
     };
+    return result;
 }

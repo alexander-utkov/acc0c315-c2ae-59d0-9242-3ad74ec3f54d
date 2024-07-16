@@ -2,13 +2,18 @@
 
 #include <list>
 #include <utility>
+#include <string_view>
 
 namespace App
 {
     enum class VehicleId : int
     {
-        A = 0, B, C, D,
+        Motorcycle = 0,
+        Scooter = 1,
+        Car = 2,
+        Bus = 3,
     };
 
-    std::list<std::pair<VehicleId, const wchar_t*>> ListVehicles();
+    /// Получает названия объектов, создаваемых \ref VehicleCreator.
+    std::list<std::pair<VehicleId, std::wstring_view>> ListVehicles();
 }

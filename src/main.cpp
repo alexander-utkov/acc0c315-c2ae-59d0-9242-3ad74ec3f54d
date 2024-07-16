@@ -1,10 +1,11 @@
 #include <iostream>
 #include <iomanip>
 #include <locale>
+#include <memory>
 #include <exception>
 
 #include "args.hpp"
-#include "vehicle.hpp"
+#include "vehicles.hpp"
 #include "vehicle_id.hpp"
 
 int main(int argc, char** argv)
@@ -23,7 +24,7 @@ try
         }
         else
         {
-            std::wcout << L"НЕИЗВЕСТНЫЙ ТИП ТРАНСПОРТА" << std::endl;
+            std::wcout << L"НЕИЗВЕСТНЫЙ ТИП ТРАНСПОРТА\n" << std::endl;
         }
     }
     return 0;
@@ -53,12 +54,18 @@ catch (App::HelpMessageRequested)
 }
 catch (const std::exception& exception)
 {
-    // TODO: Попробовать перевести.
-    std::wcerr << exception.what() << std::endl;
+    // TODO: .what() как идентификатор перевода.
+    std::wcerr
+        << argv[0] << L" failed: "
+        << exception.what()
+        << std::endl;
     return -1;
 }
 catch (...)
 {
-    std::wcerr << L"неизвестная ошибка" << std::endl;
+    std::wcerr
+        << argv[0] << L" failed: "
+        << L"неизвестная ошибка"
+        << std::endl;
     return -1;
 }

@@ -7,7 +7,7 @@
 
 #include <cstddef>
 
-#include "vehicle.hpp"
+#include "vehicles.hpp"
 #include "vehicle_id.hpp"
 
 namespace App
@@ -23,6 +23,7 @@ namespace App
         /// код данной справки в \ref main.
         Args(int argc, char** argv);
 
+        /// Псевдоконтейнер для обхода входных идентификаторов типов как \c int.
         class Identifiers
         {
         public:
@@ -43,6 +44,8 @@ namespace App
             return *this;
         }
 
+        /// Псевдоконтейнер над \ref Identifiers; создает экземпляры \ref
+        /// Vehicles соответствующих типов при помощи \ref VehicleCreator.
         class Vehicles
         {
         public:
@@ -91,9 +94,12 @@ namespace App
         pointer m_ptr;
     };
 
-    /// Идентификатор начинается не с цифры: «-1», «z0». Однако следующие
-    /// идентификаторы допустимы: «1z23» (1), «1.23» (1) - см. ISO C89/90
-    /// atoi.
+    /// Целочисленный идентификатор не содержит цифры.
+    /// 
+    /// Унарный знак допускается при наличии последующей ненулевой цифры.
+    /// 
+    /// Следующие идентификаторы допустимы неявно: «1z23» (1), «2.34» (2) -
+    /// см. ISO C89/90 atoi.
     class Args::Identifiers::BadIdentifier : public std::exception
     {
     public:
