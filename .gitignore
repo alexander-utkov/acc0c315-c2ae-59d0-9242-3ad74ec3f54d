@@ -1,0 +1,6 @@
+# User files:
+.vscode/
+
+# Temporary objects:
+*.obj
+*.exe
