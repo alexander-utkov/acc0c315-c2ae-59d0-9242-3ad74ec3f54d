@@ -14,7 +14,7 @@ using std::format;
 
 #include "vehicle_features.hpp"
 
-#define APP_ADD_FEATURE(name, member)                                          \
+#define APP_ADD_VEHICLE_FEATURE(name, member)                                  \
     protected:                                                                 \
         App::name##VehicleFeature member;                                      \
                                                                                \
@@ -39,9 +39,9 @@ namespace App
         // - GetName();     // значение характеристики «Name»
         //   - m_name.GetValue()
 
-        APP_ADD_FEATURE(Name, m_name);
-        APP_ADD_FEATURE(Wheels, m_wheels);
-        APP_ADD_FEATURE(MaxSpeed, m_max_speed);
+        APP_ADD_VEHICLE_FEATURE(Name, m_name);
+        APP_ADD_VEHICLE_FEATURE(Wheels, m_wheels);
+        APP_ADD_VEHICLE_FEATURE(MaxSpeed, m_max_speed);
 
     public:
         virtual ~Vehicle() = default;
@@ -102,11 +102,9 @@ namespace App
 
     class Bus : public Vehicle
     {
-        APP_ADD_FEATURE(MaxPassengers, m_max_passengers);
+        APP_ADD_VEHICLE_FEATURE(MaxPassengers, m_max_passengers);
 
     public:
-        // TBD: How to DRY base ctor?
-
         Bus() :
             Vehicle(L"автобус", 6, 100),
             m_max_passengers(20)

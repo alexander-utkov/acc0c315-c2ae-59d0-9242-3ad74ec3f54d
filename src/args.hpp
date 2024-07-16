@@ -23,7 +23,8 @@ namespace App
         /// код данной справки в \ref main.
         Args(int argc, char** argv);
 
-        /// Псевдоконтейнер для обхода входных идентификаторов типов как \c int.
+        /// Псевдоконтейнер для обхода входных идентификаторов типов как
+        /// \ref VehicleId.
         class Identifiers
         {
         public:
