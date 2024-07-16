@@ -7,19 +7,11 @@
 
 #include <cstddef>
 
+#include "vehicle.hpp"
+#include "vehicle_id.hpp"
+
 namespace App
 {
-    // #error TODO:
-    enum class VehicleId
-    {
-        A, B, C, D,
-    };
-    class Vehicle
-    {
-    public:
-        Vehicle() = default;
-    };
-
     struct HelpMessageRequested
     {};
 

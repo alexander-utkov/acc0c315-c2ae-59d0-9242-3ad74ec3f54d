@@ -4,6 +4,8 @@
 #include <exception>
 
 #include "args.hpp"
+#include "vehicle.hpp"
+#include "vehicle_id.hpp"
 
 int main(int argc, char** argv)
 try
@@ -17,7 +19,7 @@ try
     {
         if (vehicle)
         {
-            // std::wcout << vehicle->GetRepresentation() << std::endl;
+            std::wcout << vehicle->GetRepresentation() << std::endl;
         }
         else
         {
@@ -34,11 +36,19 @@ catch (App::HelpMessageRequested)
         << L" " << L"[--help]"
         << std::endl << std::endl;
 
-    const std::streamsize column_0_width = 5;
+    const std::streamsize column_0_width = 2;
     std::wcout
-        << std::setw(column_0_width) << L"ID" << L" "
-        << L"Целочисленный идентификатор транспорта."
+        << std::left << std::setw(column_0_width) << L"ID" << L"   "
+        << L"Целочисленный идентификатор транспорта:"
         << std::endl;
+    for (auto vehicle : App::ListVehicles())
+    {
+        std::wcout
+            << std::right << std::setw(column_0_width) << L"" << L"   "
+            << std::left << std::setw(1) << (int)vehicle.first << L" - "
+            << vehicle.second
+            << std::endl;
+    }
     return 0;
 }
 catch (const std::exception& exception)
