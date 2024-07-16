@@ -9,9 +9,16 @@
 
 namespace App
 {
-    #error TODO:
-    enum class VehicleId;
-    class Vehicle;
+    // #error TODO:
+    enum class VehicleId
+    {
+        A, B, C, D,
+    };
+    class Vehicle
+    {
+    public:
+        Vehicle() = default;
+    };
 
     struct HelpMessageRequested
     {};
@@ -39,7 +46,7 @@ namespace App
             const Args& m_owner;
         };
 
-        inline Identifiers GetIdentifiers() const
+        inline Identifiers GetIdentifiers() const &
         {
             return *this;
         }
@@ -58,7 +65,7 @@ namespace App
             const Args& m_owner;
         };
 
-        inline Vehicles GetVehicles() const
+        inline Vehicles GetVehicles() const &
         {
             return *this;
         }
@@ -100,7 +107,7 @@ namespace App
     public:
         virtual const char* what() const
         {
-            "bad ID argument";
+            return "bad ID argument";
         }
     };
 

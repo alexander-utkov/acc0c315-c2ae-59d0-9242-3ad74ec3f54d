@@ -4,3 +4,5 @@
 # Temporary objects:
 *.obj
 *.exe
+*.pdb
+*.ilk

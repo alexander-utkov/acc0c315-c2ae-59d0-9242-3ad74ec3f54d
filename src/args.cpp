@@ -52,7 +52,6 @@ const
 #pragma endregion
 #pragma region App::Args::Identifiers::Iterator
 
-explicit
 App::Args::Identifiers::Iterator::Iterator(pointer ptr) :
     m_ptr(ptr)
 {}
@@ -128,7 +127,6 @@ const
 #pragma endregion
 #pragma region App::Args::Vehicles::Iterator
 
-explicit
 App::Args::Vehicles::Iterator::Iterator(underlying_iterator it) :
     m_it(it)
 {}
@@ -166,7 +164,9 @@ App::Args::Vehicles::Iterator::value_type
 App::Args::Vehicles::Iterator::operator*()
 const
 {
-    #error TODO
+    // #error TODO
+    throw "todo";
+    return nullptr;
 }
 
 #pragma endregion
