@@ -1,8 +1,14 @@
 #include <iostream>
 #include <iomanip>
-#include <locale>
 #include <memory>
 #include <exception>
+
+#if defined(__GNUC__)
+#include <clocale>
+#else
+#include <io.h>
+#include <fcntl.h>
+#endif
 
 #include "args.hpp"
 #include "vehicles.hpp"
@@ -11,9 +17,12 @@
 int main(int argc, char** argv)
 try
 {
-    std::locale locale("rus_rus.1251");
-    std::wcout.imbue(locale);
-    std::wcerr.imbue(locale);
+    #if defined(__GNUC__)
+    std::setlocale(LC_ALL, "");
+    #else
+    _setmode(_fileno(stdout), _O_U16TEXT);
+    _setmode(_fileno(stderr), _O_U16TEXT);
+    #endif
     
     App::Args args(argc, argv);
     for (std::unique_ptr<App::Vehicle> vehicle : args.GetVehicles())

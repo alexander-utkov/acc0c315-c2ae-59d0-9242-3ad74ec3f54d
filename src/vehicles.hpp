@@ -1,6 +1,8 @@
 #pragma once
 
+#if !defined(__GNUC__)
 #include <format>
+#endif
 #include <string>
 #include <string_view>
 
@@ -8,7 +10,7 @@
 
 #define APP_ADD_FEATURE(name, member)                                          \
     protected:                                                                 \
-        App::##name##VehicleFeature member;                                    \
+        App::name##VehicleFeature member;                                      \
                                                                                \
     public:                                                                    \
         inline                                                                 \
@@ -18,6 +20,17 @@
         {                                                                      \
             return member.GetValue();                                          \
         }
+
+#if defined(__GNUC__)
+namespace std
+{
+    template<class... Ts>
+    std::wstring format(Ts...)
+    {
+        return L"FIXME";
+    }
+}
+#endif
 
 namespace App
 {

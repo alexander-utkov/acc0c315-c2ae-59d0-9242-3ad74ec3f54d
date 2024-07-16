@@ -103,7 +103,7 @@ namespace App
     class Args::Identifiers::BadIdentifier : public std::exception
     {
     public:
-        virtual const char* what() const
+        virtual const char* what() const noexcept
         {
             return "bad ID argument";
         }
