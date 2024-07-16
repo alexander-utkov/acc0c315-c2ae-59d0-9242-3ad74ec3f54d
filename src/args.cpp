@@ -95,13 +95,20 @@ const
 {
     if (std::isdigit(**m_ptr) == 0)
     {
-        // Допускаем унарный знак: '[+-][1-9]'.
+        // Допускаем унарный знак: '[+-](0|[1-9][0-9]*)'.
         if (**m_ptr == '+' || **m_ptr == '-')
         {
             char next = *(*m_ptr + 1);
-            if (next == '0' || std::isdigit(next) == 0)
+            if (std::isdigit(next) == 0)
             {
                 throw BadIdentifier();
+            }
+            else if (next == '0')
+            {
+                if (*(*m_ptr + 2) != '\0')
+                {
+                    throw BadIdentifier();
+                }
             }
         }
         else throw BadIdentifier();

@@ -70,16 +70,14 @@ namespace App
         char** m_argv;
     };
 
-    class Args::Identifiers::Iterator :
-        public std::iterator<
-            std::input_iterator_tag,
-            VehicleId,
-            std::ptrdiff_t,
-            const char**,
-            int
-        >
+    class Args::Identifiers::Iterator
     {
     public:
+        using iterator_category = std::input_iterator_tag;
+        using value_type = VehicleId;
+        using difference_type = std::ptrdiff_t;
+        using pointer = const char**;
+
         explicit Iterator(pointer ptr);
 
         Iterator& operator++();
@@ -109,17 +107,13 @@ namespace App
         }
     };
 
-    class Args::Vehicles::Iterator :
-        public std::iterator<
-            std::input_iterator_tag,
-            std::unique_ptr<Vehicle>,
-            typename Args::Identifiers::Iterator::difference_type,
-            Args::Identifiers::Iterator,
-            int
-        >
+    class Args::Vehicles::Iterator
     {
     public:
-        using underlying_iterator = pointer;
+        using iterator_category = std::input_iterator_tag;
+        using value_type = std::unique_ptr<Vehicle>;
+        using underlying_iterator = Args::Identifiers::Iterator;
+        using difference_type = typename underlying_iterator::difference_type;
 
         explicit Iterator(underlying_iterator it);
 
