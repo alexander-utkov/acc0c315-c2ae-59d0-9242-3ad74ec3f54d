@@ -3,7 +3,7 @@
 #include <memory>
 #include <exception>
 
-#if defined(__GNUC__)
+#if defined(OS_LINUX)
 #include <clocale>
 #else
 #include <io.h>
@@ -17,7 +17,7 @@
 int main(int argc, char** argv)
 try
 {
-    #if defined(__GNUC__)
+    #if defined(OS_LINUX)
     std::setlocale(LC_ALL, "");
     #else
     _setmode(_fileno(stdout), _O_U16TEXT);

@@ -3,7 +3,7 @@
 #include <string>
 #include <string_view>
 
-#if defined(__GNUC__)
+#if defined(OS_LINUX)
 #include <fmt/format.h>
 #include <fmt/xchar.h>
 using fmt::format;

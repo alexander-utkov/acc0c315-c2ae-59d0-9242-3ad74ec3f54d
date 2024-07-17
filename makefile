@@ -9,7 +9,7 @@ BUILD_DIR := build/
 ifeq ($(OS),Windows_NT)
 	BUILD_DIR := $(BUILD_DIR)windows/
 else
-	BUILD_DIR := $(BUILD_DIR)other/
+	BUILD_DIR := $(BUILD_DIR)linux/
 endif
 
 all:

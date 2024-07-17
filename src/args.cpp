@@ -14,7 +14,7 @@ bool IsHelpOption(const char* option)
 {
     return
     (
-        #if !defined(__GNUC__)
+        #if defined(OS_WINDOWS)
         std::strcmp(option, "/?") == 0 ||
         #endif
         std::strcmp(option, "-h") == 0 ||
