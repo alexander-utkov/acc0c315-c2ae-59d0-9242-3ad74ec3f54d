@@ -1,0 +1,17 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = crlf
+
+[makefile]
+indent_style = tab
+
+[cmakelists.txt]
+indent_style = space
+indent_size = 4
+
+[*.{c,cpp,h,hpp}]
+indent_style = space
+indent_size = 4
+insert_final_newline = true
